@@ -2,7 +2,8 @@ package main
 import ( 
 	"net/http"
 	"github.com/gin-gonic/gin"
-    
+    "github.com/jinzhu/gorm"
+    _ "github.com/mattn/go-sqlite3"
 )
 
 
@@ -61,4 +62,20 @@ func main() {
 	//router.DELETE("/metalBars/:id", deleteMetalBars)
 
 	router.Run("localhost:8080")
+}
+func InitDb() *gorm.DB {
+	// dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai"
+	// db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open("sqlite3","./data.db")
+	db.LogMode(true)
+
+	if err != nil {
+		panic(err)
+	}
+	if !db.HasTable(&metalBar{}){
+		db.CreateTable(&metalBar{})
+		db.Set("gorm:table_options",
+	"ENGINE=InnoDB").CreateTable(&metalBar{})
+	}
+	return 0
 }

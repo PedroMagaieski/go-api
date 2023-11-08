@@ -77,5 +77,5 @@ func InitDb() *gorm.DB {
 		db.Set("gorm:table_options",
 	"ENGINE=InnoDB").CreateTable(&metalBar{})
 	}
-	return 0
+
 }
